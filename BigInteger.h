@@ -29,9 +29,9 @@ public:
   BigInteger  operator -- (int);          //postfix decrement: dummy parameter, returns a value
 
   bool operator == (BigInteger bigInteger);               //overloading for equals comparison operator
-	bool operator != (BigInteger bigInteger);               //overloading for not equals comparison operator
-	bool operator >= (BigInteger bigInteger);               //overloading for greaterthan or equal comparison operator
-	bool operator <= (BigInteger bigInteger);               //overloading for lessthan or equal comparison operator
+  bool operator != (BigInteger bigInteger);               //overloading for not equals comparison operator
+  bool operator >= (BigInteger bigInteger);               //overloading for greaterthan or equal comparison operator
+  bool operator <= (BigInteger bigInteger);               //overloading for lessthan or equal comparison operator
   bool operator > (BigInteger bigInteger);                //overloading for greaterthan comparison operator
   bool operator < (BigInteger bigInteger);                //overloading for lessthan comparison operator
 
