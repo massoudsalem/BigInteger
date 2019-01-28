@@ -16,8 +16,6 @@ public:
   void setsign(bool sign);          //setter for sign member
 
   void operator = (BigInteger bigInteger);                       //overloading for assignment operator
-  BigInteger operator = (int val);                               //overloading for assignment operator
-  BigInteger operator = (long long val);                         //overloading for assignment operator
   BigInteger operator + (const BigInteger &bigInteger);          //overloading for adding operator
   BigInteger operator - (const BigInteger &bigInteger);          //overloading for subtracting operator
   BigInteger operator * (const BigInteger &bigInteger);          //overloading for multiplying operator
