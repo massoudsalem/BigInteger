@@ -9,15 +9,15 @@ public:
   BigInteger(string val);             //string number value initialization +ve and -ve using first char in string (constructor)
   BigInteger(int val);                //integer (32bit) number value (constructor)
   BigInteger(long long val);          //long (64bit) number value (constructor)
-  
-  void SetVal(string val);            //string number value (setter)
-  void SetVal(int val);               //integer (32bit) number value (setter)
-  void SetVal(long long val);         //long (64bit) number value (setter)
-  void SetSign(bool sign);            //sign setter
-  string GetVal();                    //string value getter
-  bool GetSign();                     //sign getter
 
-  void operator = (const BigInteger &bigInteger);                //overloading for assignment operator
+  string getval();                  //getter for val member
+  bool getsign();                   //getter for sign member
+  void setval(string val);          //setter for val member
+  void setsign(bool sign);          //setter for sign member
+
+  void operator = (BigInteger bigInteger);                       //overloading for assignment operator
+  BigInteger operator = (int val);                               //overloading for assignment operator
+  BigInteger operator = (long long val);                         //overloading for assignment operator
   BigInteger operator + (const BigInteger &bigInteger);          //overloading for adding operator
   BigInteger operator - (const BigInteger &bigInteger);          //overloading for subtracting operator
   BigInteger operator * (const BigInteger &bigInteger);          //overloading for multiplying operator
@@ -43,8 +43,9 @@ public:
   bool operator < (const BigInteger &bigInteger);                //overloading for lessthan comparison operator
 
   BigInteger operator -();                 //-ve sign
+
   operator string();                       //string conversion
-  
+
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
 
