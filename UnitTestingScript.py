@@ -13,6 +13,7 @@ with open("unitTestfile.in","w") as testFile:
         testFile.write(f"{a} {b} {a-b} -\n")
         testFile.write(f"{a} {c} {a//c} \\\n")
         testFile.write(f"{a} {c} {a%c} %\n")
+        testFile.write(f"{a} {b} {a*b} *\n")
 
 print("waiting the output file")
 
