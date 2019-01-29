@@ -50,6 +50,6 @@ public:
 private:
   string val;                         //string value
   bool sign;                          //sign value true for -ve sign
-
+  void _sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2); //supporting function for subtraction
 
 };
