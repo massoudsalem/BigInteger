@@ -192,7 +192,7 @@ string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     * +"-'0'" from char to int "+'0'" from int to char
     * +Note: divisor must fit in 0-9*10^18
     **/
-    
+
     string dividantString=dividant.getval();
     int dividantLength=dividantString.size();
     int index=0;
@@ -222,13 +222,26 @@ int main(int argc, char const *argv[]) {
   // BigInteger b("39410599381515334020662332462848179");
   // cout<<b<<endl;
   // cout<<b._arithmeticDivision(b,n2)<<endl;
-  freopen("in.txt","r",stdin);
-  freopen("outC++.txt","w",stdout);
-  string n1;
-  long long n2;
-  while(cin>>n1>>n2){
-  BigInteger b(n1);
-  cout<<b._arithmeticDivision(b,n2)<<endl;
+  freopen("unitTestfile.in","r",stdin);
+  freopen("out.test","w",stdout);
+  string a,b,c,d;
+  int i=0;
+  while(cin>>a>>b>>c>>d){
+    BigInteger A(a);
+    BigInteger B(b);
+    switch (i%3) {
+      case 0:
+        cout<<A+B<<endl;
+        break;
+      case 1:
+        cout<<A-B<<endl;
+        break;
+      case 2:
+        long long C=stoll(b,nullptr,0);
+        cout<<A._arithmeticDivision(A,C)<<endl;
+        break;
+    }
+    ++i;
   }
   // BigInteger b(627);
   // long long rem=0;
