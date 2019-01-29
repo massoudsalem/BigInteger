@@ -46,11 +46,12 @@ public:
 
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
+  string _arithmeticDivision(BigInteger dividant,long long divisor);
 
 private:
   string val;                         //string value
   bool sign;                          //sign value true for -ve sign
   string toString(long long val);     //String conversion form primitive number type
   void _sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2); //supporting function for subtraction
-
+  BigInteger _BSDivision(BigInteger dividant,BigInteger divisor,BigInteger &rem);
 };

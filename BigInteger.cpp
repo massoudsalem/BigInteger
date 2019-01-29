@@ -34,7 +34,6 @@ bool BigInteger::getsign(){
   return (*this).sign;
 }
 
-
 void BigInteger::operator = (BigInteger bigInteger){
   setval(bigInteger.getval());
   setsign(bigInteger.getsign());
@@ -137,6 +136,23 @@ BigInteger BigInteger:: operator - (const BigInteger &bigInteger)
 
 }
 
+
+
+bool BigInteger::operator == (const BigInteger &bigInteger){
+  return (*this).val==bigInteger.val&&(*this).sign==bigInteger.sign;
+}
+
+bool BigInteger::operator !=(const BigInteger &bigInteger){
+  return !((*this)==bigInteger);
+}
+
+
+
+ostream& operator << (ostream &out,const BigInteger &bigInteger){
+ out<<((bigInteger.sign==1)? "-":"")<<bigInteger.val;
+ return out;
+}
+
 void BigInteger::_sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2)
 {
     int carry=0;
@@ -169,44 +185,74 @@ void BigInteger::_sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L
 
 }
 
-bool BigInteger::operator == (const BigInteger &bigInteger){
-  return (*this).val==bigInteger.val&&(*this).sign==bigInteger.sign;
-}
+string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
+    /**
+    * +Implementation of arithmetic long division on strings
+    * +O(n) :n is number of digits of bigInteger
+    * +"-'0'" from char to int "+'0'" from int to char
+    * +Note: divisor must fit in 0-9*10^18
+    **/
+    
+    string dividantString=dividant.getval();
+    int dividantLength=dividantString.size();
+    int index=0;
+    long long temp=dividantString[index]-'0';
+    string answer="";
+    divisor=abs(divisor);
+    while(temp<divisor && dividantString[++index]!='\0')
+        temp=temp*10+dividantString[index]-'0';
 
-bool BigInteger::operator !=(const BigInteger &bigInteger){
-  return !((*this)==bigInteger);
-}
+    while(index<dividantLength){
+        answer+=(temp/divisor)+'0';
+        temp=(temp%divisor)*10+dividantString[++index]-'0';
+    }
 
-
-ostream& operator << (ostream &out,const BigInteger &bigInteger){
- out<<((bigInteger.sign==1)? "-":"")<<bigInteger.val;
- return out;
+    return ((answer.length() == 0)?"0":answer);
 }
 
 string BigInteger::toString(long long val){
-    ostringstream temp;
-    temp<<val;
-    return temp.str();
+  ostringstream temp;
+  temp<<val;
+  return temp.str();
 }
 
 int main(int argc, char const *argv[]) {
-  BigInteger *b=new BigInteger("11",1);
-  BigInteger *b1=new BigInteger("-1111");
-  BigInteger *b2=new BigInteger("111");
-  BigInteger *b3=new BigInteger();
-  BigInteger *b4=new BigInteger(-1LL);
-  BigInteger *b5=new BigInteger(1LL);
-  BigInteger b6=1;
-  BigInteger b7=-6;
-  BigInteger b8=-166LL;
-  b6=b7;
-  cout<<(b6==b7)<<endl;
-  cout<<(b6!=b7)<<endl;
-  b6=6;
-  cout<<(b6==b7)<<endl;
-  cout<<(b6!=b7)<<endl;
-  cout<<b6<<endl<<b7<<endl<<b8<<endl;
-  cout<<*b4<<endl<<*b5<<endl;
-  cout<<*b<<endl<<*b1<<endl<<*b2<<endl<<*b3<<endl;
+  // long long n2=900000000000000000;
+  // cout<<n2<<endl;
+  // BigInteger b("39410599381515334020662332462848179");
+  // cout<<b<<endl;
+  // cout<<b._arithmeticDivision(b,n2)<<endl;
+  freopen("in.txt","r",stdin);
+  freopen("outC++.txt","w",stdout);
+  string n1;
+  long long n2;
+  while(cin>>n1>>n2){
+  BigInteger b(n1);
+  cout<<b._arithmeticDivision(b,n2)<<endl;
+  }
+  // BigInteger b(627);
+  // long long rem=0;
+  // string res=b._arithmeticDivision(b,620,rem);
+  // cout<<res<<" and rem= "<<rem<<endl;
+  // BigInteger *b=new BigInteger("11",1);
+  // BigInteger *b1=new BigInteger("-1111");
+  // BigInteger *b2=new BigInteger("111");
+  // BigInteger *b3=new BigInteger();
+  // BigInteger *b4=new BigInteger(-1LL);
+  // BigInteger *b5=new BigInteger(1LL);
+  // BigInteger b6=1;
+  // BigInteger b7=-6;
+  // BigInteger b8=-166LL;
+  // cout<<*b5+b6<<endl;
+  // cout<<b7-b6<<endl;
+  // b6=b7;
+  // cout<<(b6==b7)<<endl;
+  // cout<<(b6!=b7)<<endl;
+  // b6=6;
+  // cout<<(b6==b7)<<endl;
+  // cout<<(b6!=b7)<<endl;
+  // cout<<b6<<endl<<b7<<endl<<b8<<endl;
+  // cout<<*b4<<endl<<*b5<<endl;
+  // cout<<*b<<endl<<*b1<<endl<<*b2<<endl<<*b3<<endl;
   return 0;
 }
