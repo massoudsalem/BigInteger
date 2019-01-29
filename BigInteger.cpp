@@ -39,53 +39,15 @@ void BigInteger::operator = (BigInteger bigInteger){
   setsign(bigInteger.getsign());
 }
 
-BigInteger BigInteger::operator + (const BigInteger &bigInteger)
+BigInteger BigInteger:: operator + (const BigInteger &bigInteger)
 {
     if(this->sign==bigInteger.sign)  //if the two signs are equal (-,-) or (+,+) then we add the two nums with the same sign
     {
         string result="";     //variable to store result
-        int carry=0;
-        int L1=(this->val).length()-1,L2=bigInteger.val.length()-1;  //getting the length of the two numbers
-
-        while(L1>=0&&L2>=0) //doing the ordinary adding operation (digit by digit and carry 1 if result >=10) untill end of smaller number
-        {
-            int add = (((this->val)[L1]-'0')+(bigInteger.val[L2]-'0')+carry);
-            if(add>9)
-            {
-                add-=10;
-                carry=1;
-            }
-            else carry=0;
-            result=char(add+'0')+result;
-            --L1;
-            --L2;
-        }
-        //continue adding if any of the two numbers didn't reach end
-        while(L1>=0)
-        {
-            int add = (((this->val)[L1]-'0')+carry);
-            if(add>9)
-            {
-                add-=10;
-                carry=1;
-            }
-            else carry=0;
-            result=char(add+'0')+result;
-            --L1;
-        }
-        while(L2>=0)
-        {
-            int add = ((bigInteger.val[L2]-'0')+carry);
-            if(add>9)
-            {
-                add-=10;
-                carry=1;
-            }
-            else carry=0;
-            result=char(add+'0')+result;
-            --L2;
-        }
-        if(carry)result='1'+result;
+        if(isGreater(*this,bigInteger))
+            _subAdd(result,this->val,bigInteger.val,0);
+        else
+            _subAdd(result,bigInteger.val,this->val,0);
         BigInteger b(result,this->sign);
         return  b;
     }
@@ -101,29 +63,19 @@ BigInteger BigInteger::operator + (const BigInteger &bigInteger)
 
 BigInteger BigInteger:: operator - (const BigInteger &bigInteger)
 {
-    int L1=(this->val).length()-1,L2=bigInteger.val.length()-1;  //getting the length of the two numbers
     string result="";     //variable to store result
     bool sign=0;  //variable to store the sign
     if(!this->sign&&!bigInteger.sign)  //if the two numbers are +ve
     {
         //check the greater to indicate the sign
-        if(L1>L2)
+        if(isGreater(*this,bigInteger))
         {
-            _sub(result,*this,bigInteger,L1,L2);
-        }
-        else if(L1<L2)
-        {
-            sign=1;
-            _sub(result,bigInteger,*this,L2,L1);
-        }
-        else if (this->val>=bigInteger.val)
-        {
-            _sub(result,*this,bigInteger,L1,L2);
+            _subAdd(result,this->val,bigInteger.val,1);
         }
         else
         {
             sign=1;
-            _sub(result,bigInteger,*this,L2,L1);
+            _subAdd(result,bigInteger.val,this->val,1);
         }
         int i=0;
         for(; i<result.length()&&result[i]=='0'&&result.length()>1; i++); //remove zeros from the left
@@ -152,39 +104,68 @@ ostream& operator << (ostream &out,const BigInteger &bigInteger){
  return out;
 }
 
-void BigInteger::_sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2)
+void BigInteger::_subAdd(string &result,string b1, string b2,bool op)
 {
+    int L1=b1.length()-1,L2=b2.length()-1;  //getting the length of the two numbers
     int carry=0;
     while(L2>=0) //doing the ordinary subtraction operation (digit by digit and carry 1 if result <0) untill end of smaller number
     {
-        int sub = ((b1.val[L1]-'0')-(b2.val[L2]-'0')-carry);
-        if(sub<0)
+        int res = ((b1[L1]-'0')+((op)?-1:1)*(b2[L2]-'0')+((op)?-1:1)*carry);
+        if(res<0||res>9)
         {
-            sub+=10;
+            res=res+((op)?1:-1)*10;
             carry=1;
         }
         else carry=0;
-        result=char(sub+'0')+result;
+        result=char(res+'0')+result;
         --L1;
         --L2;
     }
     //continue subtracting until reach end of greater number
     while(L1>=0)
     {
-        int sub = ((b1.val[L1]-'0')-carry);
-        if(sub<0)
+        int res = ((b1[L1]-'0')+((op)?-1:1)*carry);
+        if(res<0||res>9)
         {
-            sub+=10;
+            res=res+((op)?1:-1)*10;
             carry=1;
         }
         else carry=0;
-        result=char(sub+'0')+result;
+        result=char(res+'0')+result;
         --L1;
     }
-
+    if(!op&&carry)result='1'+result;
 }
 
+BigInteger BigInteger:: operator * (const BigInteger &bigInteger)
+{
+    string result="";
+    _mul(result,*this,bigInteger);
+    BigInteger b(result,this->sign^bigInteger.sign); //the result sign is -ve if the two signs are different and +ve if identical
+    return b;
+}
 
+void BigInteger::_mul(string &result,BigInteger b1, BigInteger b2)
+{
+    int L1=b1.val.length(),L2=b2.val.length();  //getting the length of the two numbers
+    int len=L1+L2;
+    string n1=b1.val,  //taking a copy from the numbers value in order not change the original numbers
+           n2=b2.val;
+    int res[len]= {};  //the length of multiplication of any two numbers can't exceed sum of their length
+    reverse(n1.begin(),n1.end());   //reversing the num value just to start counting from 0 not length of the numbers :)
+    reverse(n2.begin(),n2.end());
+    for(int i=0; i<L1; ++i)              //multiplying each digit of first number with all the second number
+        for(int j=0; j<L2; ++j)
+            res[i+j]+=(n1[i]-'0')*(n2[j]-'0');
+    for (int i=0; i<len; i++)     //this for is for carry operation
+    {
+        res[i + 1]+=res[i]/10;
+        res[i]%=10;
+    }
+    --len;
+    for (; len > 0 && res[len] == 0; --len); //remove zeros on the left
+    for (; len>=0; --len)result+=toString(res[len]);
+}
 
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
@@ -248,6 +229,14 @@ long long BigInteger::_remainder(BigInteger dividant,long long divisor){
     rem = (rem*(10%divisor) + (dividantString[dividantLength]-'0')%divisor)%divisor;
 
   return rem*sign;
+}
+
+bool BigInteger::isGreater(BigInteger b1, BigInteger b2)
+{
+    if(b1.val.length()>b2.val.length())return 1;
+    else if(b1.val.length()<b2.val.length())return 0;
+    else if (b1.val>=b2.val)return 1;
+    return 0;
 }
 
 string BigInteger::toString(long long val){
