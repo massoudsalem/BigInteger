@@ -61,6 +61,21 @@ BigInteger BigInteger:: operator + (const BigInteger &bigInteger)
     }
 }
 
+BigInteger& BigInteger:: operator += (const BigInteger &bigInteger){
+    *this=(*this+bigInteger);
+    return *this;
+}
+
+BigInteger& BigInteger:: operator -= (const BigInteger &bigInteger){
+    *this=(*this-bigInteger);
+    return *this;
+}
+
+BigInteger& BigInteger:: operator *= (const BigInteger &bigInteger){
+    *this=(*this*bigInteger);
+    return *this;
+}
+
 BigInteger& BigInteger:: operator ++ (){
     *this=(*this+*(new BigInteger("1",0)));
     return *this;
