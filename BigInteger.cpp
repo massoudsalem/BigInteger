@@ -11,11 +11,11 @@ BigInteger::BigInteger(string val){
 }
 
 BigInteger::BigInteger(int val){
-  this->val=to_string(abs(val)),this->sign=(val<0);
+  this->val=toString(abs(val)),this->sign=(val<0);
 }
 
 BigInteger::BigInteger(long long val){
-  this->val=to_string(abs(val)),this->sign=(val<0);
+  this->val=toString(abs(val)),this->sign=(val<0);
 }
 
 void BigInteger::setval(string val){
@@ -183,6 +183,11 @@ ostream& operator << (ostream &out,const BigInteger &bigInteger){
  return out;
 }
 
+string BigInteger::toString(long long val){
+    ostringstream temp;
+    temp<<val;
+    return temp.str();
+}
 
 int main(int argc, char const *argv[]) {
   BigInteger *b=new BigInteger("11",1);
