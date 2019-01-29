@@ -10,8 +10,8 @@ public:
   BigInteger(int val);                //integer (32bit) number value (constructor)
   BigInteger(long long val);          //long (64bit) number value (constructor)
 
-  string getval();                  //getter for val member
-  bool getsign();                   //getter for sign member
+  string getval() const;            //getter for val member
+  bool getsign() const;             //getter for sign member
   void setval(string val);          //setter for val member
   void setsign(bool sign);          //setter for sign member
 
@@ -46,11 +46,13 @@ public:
 
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
-  string _arithmeticDivision(BigInteger dividant,long long divisor);
-  string _BSDivision(BigInteger dividant,BigInteger divisor,BigInteger &rem);
 private:
   string val;                         //string value
   bool sign;                          //sign value true for -ve sign
   string toString(long long val);     //String conversion form primitive number type
-  void _sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2); //supporting function for subtraction
+  long long toLL(string val);         //Convert to long long
+  void _sub(string &result,BigInteger b1, BigInteger b2,int &L1,int &L2);       //supporting function for subtraction
+  string _arithmeticDivision(BigInteger dividant,long long divisor);            //supporting function for division
+  string _BSDivision(BigInteger dividant,BigInteger divisor,BigInteger &rem);   //supporting function for division
+  long long _remainder(BigInteger dividant,long long divisor);                  //supporting function for remainder
 };
