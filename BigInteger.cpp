@@ -252,6 +252,24 @@ BigInteger abs(const BigInteger &bigInteger){
     return BigInteger(bigInteger.getval());
 }
 
+BigInteger BigInteger::GCD(BigInteger y){
+  BigInteger r;
+  BigInteger x=*this;
+
+  while (y > 0) {
+    r = x%y;
+    x = y;
+    y = r;
+  }
+  
+return x;
+}
+
+BigInteger BigInteger::LCM(BigInteger y){
+  BigInteger x=*this;
+  return x*y/x.GCD(y);
+}
+
 BigInteger BigInteger::modPower(BigInteger power, BigInteger mod){
     BigInteger res = 1;
     BigInteger base = *this;

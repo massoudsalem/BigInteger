@@ -47,8 +47,8 @@ public:
   BigInteger operator -();                 //-ve sign
   operator string();                       //string conversion
 
-  BigInteger GCD(BigInteger x,BigInteger y);
-  BigInteger LCM(BigInteger x,BigInteger y);
+  BigInteger GCD(BigInteger y);
+  BigInteger LCM(BigInteger y);
   BigInteger modPower(BigInteger power, BigInteger mod);
 
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
