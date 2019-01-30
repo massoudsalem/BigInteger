@@ -3,6 +3,7 @@ from msvcrt import getch
 import os
 
 n=100 #number of tests
+
 #Generating tests
 with open("unitTestfile.in","w") as testFile:
     for x in range(n):
@@ -18,8 +19,8 @@ print("waiting the output file")
 
 #Compile and run the targeted file
 compileFlag=False
-if os.system('g++ -std=c++11 ' + 'BigInteger.cpp' + ' -o ' + "BigInteger.exe") == 0:
-    os.system("BigInteger.exe")
+if  os.system('g++ -std=c++11 ' + 'test.cpp' + ' -o ' + "test.exe") == 0:
+    os.system("test.exe")
     print("please press any key to continue...")
     compileFlag=True
 else:
