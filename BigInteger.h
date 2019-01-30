@@ -47,6 +47,10 @@ public:
   BigInteger operator -();                 //-ve sign
   operator string();                       //string conversion
 
+  BigInteger GCD(BigInteger x,BigInteger y);
+  BigInteger LCM(BigInteger x,BigInteger y);
+  BigInteger modPower(BigInteger power, BigInteger mod);
+
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
   friend BigInteger abs(const BigInteger &bigInteger); //returns absolute value of the number

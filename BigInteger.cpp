@@ -252,6 +252,20 @@ BigInteger abs(const BigInteger &bigInteger){
     return BigInteger(bigInteger.getval());
 }
 
+BigInteger BigInteger::modPower(BigInteger power, BigInteger mod){//to be fixed
+    BigInteger res = 1;
+    BigInteger base = *this % mod;
+    while (power > 0) {
+
+        if (power % 2 == 1)
+            res = (res * base) % base;
+
+        power = power / 2;
+        base  = (base * base) % mod;
+
+    }
+}
+
 /**Private Methods**/
 string BigInteger::_toString(long long val){
   /**
@@ -424,4 +438,3 @@ bool BigInteger::_isGreater(BigInteger b1, BigInteger b2){
         return b1val<b2val;
     }
 }
-
