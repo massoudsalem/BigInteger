@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 class BigInteger{
+
 
 public:
   BigInteger();                       //zero initialization (constructor)
@@ -46,15 +46,17 @@ public:
 
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
+  BigInteger _BSDivision(BigInteger dividant,BigInteger divisor);             //supporting function for division
+
 private:
   string val;                         //string value
   bool sign;                          //sign value true for -ve sign
   string toString(long long val);     //String conversion form primitive number type
   long long toLL(string val);         //Convert to long long
-  void _subAdd(string &result,string b1, string b2,bool op); //supporting function for subtraction and addition(true op for subtraction)
-  void _mul(string &result,BigInteger b1, BigInteger b2);  //supporting function for multiplication
-  string _arithmeticDivision(BigInteger dividant,long long divisor);            //supporting function for division
-  string _BSDivision(BigInteger dividant,BigInteger divisor,BigInteger &rem);   //supporting function for division
-  long long _remainder(BigInteger dividant,long long divisor);                  //supporting function for remainder
-  bool isGreater(BigInteger b1, BigInteger b2); //return true if abs(b1)>abs(b2)
+  void _subAdd(string &result,string b1, string b2,bool op);           //supporting function for subtraction and addition(true op for subtraction)
+  void _mul(string &result,BigInteger b1, BigInteger b2);              //supporting function for multiplication
+  string _arithmeticDivision(BigInteger dividant,long long divisor);   //supporting function for division
+  long long _remainder(BigInteger dividant,long long divisor);         //supporting function for remainder
+  bool isGreater(BigInteger b1, BigInteger b2);                        //return true if b1>b2
 };
+BigInteger ARTH_MAX=900000000000000000;
