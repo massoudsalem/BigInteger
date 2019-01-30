@@ -150,6 +150,9 @@ bool BigInteger::operator <=(const BigInteger &bigInteger){
     return *this==bigInteger||!isGreater(*this,bigInteger);
 }
 
+BigInteger BigInteger::operator -() {
+    return BigInteger(this->getval(),!this->getsign());
+}
 
 
 
@@ -223,24 +226,30 @@ void BigInteger::_mul(string &result,BigInteger b1, BigInteger b2)
 
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
-    long long divisor=toLL(bigInteger.getval());
 
-    if (divisor==0) //Division by zero
+    if (bigInteger.getval()=="0") //Division by zero
         throw logic_error("Division by zero.");
-    string result=_arithmeticDivision(*this,divisor);
-    bool sign=((*this).getsign()!=(divisor<0)&&result!="0");
+
+    string result="";
+    BigInteger ARTH_MAX=900000000000000000;
+    BigInteger ZERO=0;
+
+    if(ARTH_MAX>bigInteger&&ZERO<bigInteger){
+
+        long long divisor=toLL(bigInteger.getval());
+        result=_arithmeticDivision(*this,divisor);
+
+    }else{
+        result=_BSDivision(*this,bigInteger);
+
+    }
+    bool sign=((*this).getsign()!=bigInteger.getsign()&&result!="0");
+
     return BigInteger(result,sign);
 }
 
 BigInteger BigInteger::operator % (const BigInteger &bigInteger){ //need to be fixed
-    long long divisor=toLL(bigInteger.getval());
-
-    if (divisor==0) //Division by zero
-        throw logic_error("Division by zero.");
-
-    BigInteger q(_arithmeticDivision(*this,divisor));
-
-    return (*this)-(q*bigInteger);
+    return (*this)-((*this/bigInteger)*bigInteger);
 }
 string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     /**
@@ -258,6 +267,7 @@ string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     long long temp=dividantString[index]-'0';
     string answer="";
     divisor=abs(divisor);
+    dividant.setsign(0);
 
     while(temp<divisor && dividantString[++index]!='\0')
         temp=temp*10+dividantString[index]-'0';
@@ -298,7 +308,7 @@ bool BigInteger::isGreater(BigInteger b1, BigInteger b2){
         else if(b1val.length()<b2val.length())
             return 1;
 
-        return b1val>b2val;
+        return b1val<b2val;
     }
 }
 
@@ -308,7 +318,10 @@ string BigInteger::toString(long long val){
     return temp.str();
 }
 
-BigInteger BigInteger::_BSDivision(BigInteger dividant,BigInteger divisor){
+string BigInteger::_BSDivision(BigInteger dividant,BigInteger divisor){
+    int sign=(dividant.getsign()==divisor.getsign());
+    dividant.setsign(0);
+    divisor.setsign(0);
 
     BigInteger l=0,h=dividant,mid;  //assume high with very large number and low with very small one
 
@@ -320,8 +333,8 @@ BigInteger BigInteger::_BSDivision(BigInteger dividant,BigInteger divisor){
         else
             h = mid;
     }
-
-    return --h;
+    h-=sign;
+    return h.getval();
 }
 
 long long BigInteger::toLL(string val){
@@ -333,9 +346,9 @@ long long BigInteger::toLL(string val){
 
 int main(int argc, char const *argv[]) {
 
-    BigInteger A(123);
-    BigInteger B(5);
-    cout<<A._BSDivision(A,B)<<endl;
+     // BigInteger A("85428476084937112404110244641783288172680571199813");
+     // BigInteger B("-8265316131942219195654342979177442");
+     // cout<<A/B<<endl;
     // try{
     //   BigInteger a(127);
     //   BigInteger b(2);
@@ -355,36 +368,36 @@ int main(int argc, char const *argv[]) {
     // cout<<b._arithmeticDivision(b,n2)<<endl;
     //++++++++++++++++++++++++++++++++++++++++++
     //++++++++++++++++++++++++++++++++++++++++++
-    freopen("unitTestfile.in","r",stdin);
-    freopen("out.test","w",stdout);
-    string a,b,c,d;
-    int i=0;
-    while(cin>>a>>b>>c>>d){
-      BigInteger A(a);
-      BigInteger B(b);
-      long long C;
-      cout<<A._BSDivision(A,B)<<endl;
-    // switch (i%5) {
-    //   case 0:
-    //     cout<<A+B<<endl;
-    //     break;
-    //   case 1:
-    //     cout<<A-B<<endl;
-    //     break;
-    //   case 2:
-    //     C=stoll(b,nullptr,0);
-    //     cout<<A/C<<endl;
-    //     break;
-    //   case 3:
-    //     C=stoll(b,nullptr,0);
-    //     cout<<A%C<<endl;
-    //     break;
-    //   case 4:
-    //     cout<<A*B<<endl;
-    //     break;
-    // }
-    // ++i;
-    }
+   freopen("unitTestfile.in","r",stdin);
+   freopen("out.test","w",stdout);
+   string a,b,c,d;
+   int i=0;
+   while(cin>>a>>b>>c>>d){
+       BigInteger A(a);
+       BigInteger B(b);
+       // long long C;
+       // cout<<A%B<<endl;
+       switch (i%5) {
+           case 0:
+               cout<<A+B<<endl;
+               break;
+           case 1:
+               cout<<A-B<<endl;
+               break;
+           case 2:
+               // C=stoll(b,nullptr,0);
+               cout<<A/B<<endl;
+               break;
+           case 3:
+               // C=stoll(b,nullptr,0);
+               cout<<A%B<<endl;
+               break;
+           case 4:
+               cout<<A*B<<endl;
+               break;
+       }
+       ++i;
+   }
     //+++++++++++++++++++++++++++++++++++++++++++++++++
     //+++++++++++++++++++++++++++++++++++++++++++++++++
     // BigInteger b(627);

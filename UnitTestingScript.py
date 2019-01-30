@@ -2,17 +2,16 @@ import random
 from msvcrt import getch
 import os
 
-n=1000 #number of tests
+n=100 #number of tests
 #Generating tests
 with open("unitTestfile.in","w") as testFile:
     for x in range(n):
-        a=(random.randint(10**25,10**35))
-        b=(random.randint(10**25,10**35))
-        c=(random.randint(0,9*(10**17)))
+        a=(random.randint(-10**35,10**50))
+        b=(random.randint(-10**25,10**35))
         testFile.write(f"{a} {b} {a+b} +\n")
         testFile.write(f"{a} {b} {a-b} -\n")
-        testFile.write(f"{a} {c} {a//c} \\\n")
-        testFile.write(f"{a} {c} {a%c} %\n")
+        testFile.write(f"{a} {b} {a//b} \\\n")
+        testFile.write(f"{a} {b} {a%b} %\n")
         testFile.write(f"{a} {b} {a*b} *\n")
 
 print("waiting the output file")
@@ -32,7 +31,7 @@ getch()
 if compileFlag:
     with open("out.test") as output:
         with open("unitTestfile.in") as testFile:
-            for i in range(n):
+            for i in range(n*5):
                 pyResult=testFile.readline().split(' ')
                 cppResult=output.readline()
                 if int(pyResult[2])==int(cppResult):
