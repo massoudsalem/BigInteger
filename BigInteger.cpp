@@ -252,18 +252,18 @@ BigInteger abs(const BigInteger &bigInteger){
     return BigInteger(bigInteger.getval());
 }
 
-BigInteger BigInteger::modPower(BigInteger power, BigInteger mod){//to be fixed
+BigInteger BigInteger::modPower(BigInteger power, BigInteger mod){
     BigInteger res = 1;
-    BigInteger base = *this % mod;
-    while (power > 0) {
+    BigInteger base = *this;
 
-        if (power % 2 == 1)
-            res = (res * base) % base;
+    while(power>0) {
+        if(power%2==1)
+         res=(res*base)%mod;
 
-        power = power / 2;
-        base  = (base * base) % mod;
-
+        base=(base*base)%mod;
+        power/=2;
     }
+    return res%mod;
 }
 
 /**Private Methods**/
