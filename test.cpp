@@ -4,7 +4,7 @@ using namespace std;
 
 
 int main(int argc, char const *argv[]) {
-   freopen("unitTestfile.in","r",stdin);
+  /* freopen("unitTestfile.in","r",stdin);
    freopen("out.test","w",stdout);
    BigInteger A,B,c,d;
    int i=0;
@@ -27,6 +27,9 @@ int main(int argc, char const *argv[]) {
                break;
        }
        ++i;
-   }
+   }*/
+   BigInteger b("5"),b2;
+   long long n=5;
+   cout<<(b==n);
     return 0;
 }

@@ -43,12 +43,14 @@ void BigInteger::operator = (BigInteger bigInteger){
 BigInteger BigInteger:: operator + (const BigInteger &bigInteger){
     if(this->sign==bigInteger.sign)  //if the two signs are equal (-,-) or (+,+) then we add the two nums with the same sign
     {
+        bool sign=this->getsign();
         string result="";     //variable to store result
         if(_isGreater(*this,bigInteger))
             _subAdd(result,this->val,bigInteger.val,0);
         else
             _subAdd(result,bigInteger.val,this->val,0);
-        BigInteger b(result,this->sign);
+        if(result=="0")sign=0;
+        BigInteger b(result,sign);
         return  b;
     }
     else if(this->sign) //if first num -ve and second +ve we subtract second-abs(first)
@@ -59,6 +61,10 @@ BigInteger BigInteger:: operator + (const BigInteger &bigInteger){
     {
         return (*this-*(new BigInteger(bigInteger.val,0)));
     }
+}
+
+BigInteger BigInteger:: operator + (const long long &num){
+    return (*this+BigInteger(_toString(abs(num)),num<0));
 }
 
 BigInteger BigInteger:: operator - (const BigInteger &bigInteger){
@@ -78,7 +84,8 @@ BigInteger BigInteger:: operator - (const BigInteger &bigInteger){
         }
         int i=0;
         for(; i<result.length()&&result[i]=='0'&&result.length()>1; i++); //remove zeros from the left
-        BigInteger b(result.substr(i),sign);
+        if((result=result.substr(i))=="0")sign=0;
+        BigInteger b(result,sign);
         return b;
     }
     else if(!this->sign&&bigInteger.sign)return (*this+*(new BigInteger(bigInteger.val,0))); //if first number +ve and second -ve then -- become + then we add first+abs(second)
@@ -87,11 +94,19 @@ BigInteger BigInteger:: operator - (const BigInteger &bigInteger){
 
 }
 
+BigInteger BigInteger:: operator - (const long long &num){
+    return (*this-BigInteger(_toString(abs(num)),num<0));
+}
+
 BigInteger BigInteger:: operator * (const BigInteger &bigInteger){
     string result="";
     _mul(result,*this,bigInteger);
     BigInteger b(result,this->sign^bigInteger.sign); //the result sign is -ve if the two signs are different and +ve if identical
     return b;
+}
+
+BigInteger BigInteger:: operator * (const long long &num){
+    return (*this*BigInteger(_toString(abs(num)),num<0));
 }
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
@@ -124,6 +139,10 @@ BigInteger BigInteger::operator / (const BigInteger &bigInteger){
     return BigInteger(result,sign);
 }
 
+BigInteger BigInteger:: operator / (const long long &num){
+    return (*this/BigInteger(_toString(abs(num)),num<0));
+}
+
 BigInteger BigInteger::operator % (const BigInteger &bigInteger){
     /**
     * +Implementation of remainder division on strings
@@ -132,6 +151,10 @@ BigInteger BigInteger::operator % (const BigInteger &bigInteger){
     **/
 
     return (*this)-((*this/bigInteger)*bigInteger);
+}
+
+BigInteger BigInteger:: operator % (const long long &num){
+    return (*this%BigInteger(_toString(abs(num)),num<0));
 }
 
 BigInteger& BigInteger:: operator += (const BigInteger &bigInteger){
@@ -226,7 +249,7 @@ istream & operator >> (istream &in,  BigInteger &bigInteger){
 }
 
 BigInteger abs(const BigInteger &bigInteger){
-    return BigInteger(this->getval());
+    return BigInteger(bigInteger.getval());
 }
 
 /**Private Methods**/

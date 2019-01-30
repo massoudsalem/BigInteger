@@ -16,10 +16,15 @@ public:
 
   void operator = (BigInteger bigInteger);                       //overloading for assignment operator
   BigInteger operator + (const BigInteger &bigInteger);          //overloading for adding operator
+  BigInteger operator + (const long long &num);                  //overloading for adding with long
   BigInteger operator - (const BigInteger &bigInteger);          //overloading for subtracting operator
+  BigInteger operator - (const long long &num);                  //overloading for subtracting with long
   BigInteger operator * (const BigInteger &bigInteger);          //overloading for multiplying operator
+  BigInteger operator * (const long long &num);
   BigInteger operator / (const BigInteger &bigInteger);          //overloading for dividing operator
+  BigInteger operator / (const long long &num);
   BigInteger operator % (const BigInteger &bigInteger);          //overloading for remainder operator
+  BigInteger operator % (const long long &num);
 
   BigInteger& operator += (const BigInteger &bigInteger);        //overloading for adding compound operator
   BigInteger& operator -= (const BigInteger &bigInteger);        //overloading for subtracting compound operator
