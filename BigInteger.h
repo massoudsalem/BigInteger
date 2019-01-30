@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 class BigInteger{
-  
+
 public:
   BigInteger();                       //zero initialization (constructor)
   BigInteger(string val,bool sign);   //string number value initialization with sign (constructor)
@@ -44,7 +44,7 @@ public:
 
   friend ostream & operator << (ostream &out, const BigInteger &bigInteger);  //overloading for using cout
   friend istream & operator >> (istream &in,  BigInteger &bigInteger);        //overloading for using cout
-
+  friend BigInteger abs(const BigInteger &bigInteger); //returns absolute value of the number
 private:
   string val;                         //string value
   bool sign;                          //sign value true for -ve sign

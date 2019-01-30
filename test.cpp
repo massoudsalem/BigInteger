@@ -6,11 +6,9 @@ using namespace std;
 int main(int argc, char const *argv[]) {
    freopen("unitTestfile.in","r",stdin);
    freopen("out.test","w",stdout);
-   string a,b,c,d;
+   BigInteger A,B,c,d;
    int i=0;
-   while(cin>>a>>b>>c>>d){
-       BigInteger A(a);
-       BigInteger B(b);
+   while(cin>>A>>B>>c>>d){
        switch (i%5) {
            case 0:
                cout<<A+B<<endl;

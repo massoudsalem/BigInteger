@@ -26,9 +26,10 @@ if  os.system('g++ -std=c++11 ' + 'test.cpp' + ' -o ' + "test.exe") == 0:
 else:
     print("fail to compile")
 
-getch()
+#getch()
 
 #Printing result
+noOfFailed=0;
 if compileFlag:
     with open("out.test") as output:
         with open("unitTestfile.in") as testFile:
@@ -39,8 +40,11 @@ if compileFlag:
                     print(f"Test{i}:pass")
                     print(f"^_^ {int(pyResult[2])} == {int(cppResult)}")
                 else:
+                    noOfFailed+=1
                     print(f"Test{i}:fail {pyResult[0]} {pyResult[3][0]} {pyResult[1]}")
                     print(f":/ {int(pyResult[2])} != {int(cppResult)}")
+
+print(f'There are {noOfFailed} of failed tests') if (noOfFailed) else print('No failed tests')
 
 print("\n\nplease press any key to exit.")
 getch()
