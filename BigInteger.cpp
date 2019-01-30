@@ -11,11 +11,11 @@ BigInteger::BigInteger(string val){
 }
 
 BigInteger::BigInteger(int val){
-    this->val=toString(abs(val)),this->sign=(val<0);
+    this->val=_toString(abs(val)),this->sign=(val<0);
 }
 
 BigInteger::BigInteger(long long val){
-    this->val=toString(abs(val)),this->sign=(val<0);
+    this->val=_toString(abs(val)),this->sign=(val<0);
 }
 
 void BigInteger::setval(string val){
@@ -44,7 +44,7 @@ BigInteger BigInteger:: operator + (const BigInteger &bigInteger)
     if(this->sign==bigInteger.sign)  //if the two signs are equal (-,-) or (+,+) then we add the two nums with the same sign
     {
         string result="";     //variable to store result
-        if(isGreater(*this,bigInteger))
+        if(_isGreater(*this,bigInteger))
             _subAdd(result,this->val,bigInteger.val,0);
         else
             _subAdd(result,bigInteger.val,this->val,0);
@@ -105,7 +105,7 @@ BigInteger BigInteger:: operator - (const BigInteger &bigInteger)
     if(!this->sign&&!bigInteger.sign)  //if the two numbers are +ve
     {
         //check the greater to indicate the sign
-        if(isGreater(*this,bigInteger))
+        if(_isGreater(*this,bigInteger))
         {
             _subAdd(result,this->val,bigInteger.val,1);
         }
@@ -135,26 +135,24 @@ bool BigInteger::operator !=(const BigInteger &bigInteger){
 }
 
 bool BigInteger::operator <(const BigInteger &bigInteger){
-    return *this!=bigInteger&&!isGreater(*this,bigInteger);
+    return *this!=bigInteger&&!_isGreater(*this,bigInteger);
 }
 
 bool BigInteger::operator >(const BigInteger &bigInteger){
-    return isGreater(*this,bigInteger);
+    return _isGreater(*this,bigInteger);
 }
 
 bool BigInteger::operator >=(const BigInteger &bigInteger){
-    return *this==bigInteger||isGreater(*this,bigInteger);
+    return *this==bigInteger||_isGreater(*this,bigInteger);
 }
 
 bool BigInteger::operator <=(const BigInteger &bigInteger){
-    return *this==bigInteger||!isGreater(*this,bigInteger);
+    return *this==bigInteger||!_isGreater(*this,bigInteger);
 }
 
 BigInteger BigInteger::operator -() {
     return BigInteger(this->getval(),!this->getsign());
 }
-
-
 
 ostream& operator << (ostream &out,const BigInteger &bigInteger){
     out<<((bigInteger.sign==1)? "-":"")<<bigInteger.val;
@@ -221,11 +219,18 @@ void BigInteger::_mul(string &result,BigInteger b1, BigInteger b2)
     }
     --len;
     for (; len > 0 && res[len] == 0; --len); //remove zeros on the left
-    for (; len>=0; --len)result+=toString(res[len]);
+    for (; len>=0; --len)result+=_toString(res[len]);
 }
 
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
+  /**
+  * +Implementation of greatest comparision
+  * +positive number is greater than negative one so check sgin first
+  * +if both are positive or negative compare number of digits
+  * +if the same numbeer of digits compare values
+  * +Note: negative with higher value is smaller
+  **/
 
     if (bigInteger.getval()=="0") //Division by zero
         throw logic_error("Division by zero.");
@@ -236,7 +241,7 @@ BigInteger BigInteger::operator / (const BigInteger &bigInteger){
 
     if(ARTH_MAX>bigInteger&&ZERO<bigInteger){
 
-        long long divisor=toLL(bigInteger.getval());
+        long long divisor=_toLL(bigInteger.getval());
         result=_arithmeticDivision(*this,divisor);
 
     }else{
@@ -248,9 +253,16 @@ BigInteger BigInteger::operator / (const BigInteger &bigInteger){
     return BigInteger(result,sign);
 }
 
-BigInteger BigInteger::operator % (const BigInteger &bigInteger){ //need to be fixed
+BigInteger BigInteger::operator % (const BigInteger &bigInteger){
+    /**
+    * +Implementation of remainder division on strings
+    * +O(k*n) :n is number of digits of bigInteger and k is a Constant
+    * +Using quotient equation==> N=QD+R
+    **/
+
     return (*this)-((*this/bigInteger)*bigInteger);
 }
+
 string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     /**
     * +Implementation of arithmetic long division on strings
@@ -258,6 +270,7 @@ string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     * +"-'0'" from char to int "+'0'" from int to char
     * +Note: divisor must be in range [0,9*10^18]
     **/
+
     if (divisor==0) //Division by zero
         throw logic_error("Division by zero.");
 
@@ -280,7 +293,14 @@ string BigInteger::_arithmeticDivision(BigInteger dividant,long long divisor){
     return ((answer.length() == 0)?"0":answer);
 }
 
-bool BigInteger::isGreater(BigInteger b1, BigInteger b2){
+bool BigInteger::_isGreater(BigInteger b1, BigInteger b2){
+  /**
+  * +Implementation of greatest comparision
+  * +positive number is greater than negative one so check sgin first
+  * +if both are positive or negative compare number of digits
+  * +if the same numbeer of digits compare values
+  * +Note: negative with higher value is smaller
+  **/
 
     bool b1sign=b1.getsign();
     bool b2sign=b2.getsign();
@@ -312,32 +332,50 @@ bool BigInteger::isGreater(BigInteger b1, BigInteger b2){
     }
 }
 
-string BigInteger::toString(long long val){
+string BigInteger::_toString(long long val){
+  /**
+  * +Implementation of  Long Long to String
+  * +Using stringstream to convert long long into string
+  **/
+
     ostringstream temp;
     temp<<val;
     return temp.str();
 }
 
 string BigInteger::_BSDivision(BigInteger dividant,BigInteger divisor){
+  /**
+  * +Implementation of binarySearch on quotient
+  * +O(n lg(m)) :n is number of digits of bigInteger and m is dividant
+  * +sign is detect if number is -ve to handle that the number
+  *   line has "0" between +ve and -ve numbers
+  * +Note: this can handle any number of digits but arithmetic can't
+  **/
+
     int sign=(dividant.getsign()==divisor.getsign());
     dividant.setsign(0);
     divisor.setsign(0);
 
     BigInteger l=0,h=dividant,mid;  //assume high with very large number and low with very small one
 
-    while (l < h)  //loop till they points on same number
+    while (l < h)                   //loop till they points on same number
     {
-        mid=l+(h-l)/2;  //get mid of every test
-        if (divisor*mid<dividant) //00000111111 monochromatic function
+        mid=l+(h-l)/2;              //get mid of every test
+        if (divisor*mid<dividant)   //00000111111 monochromatic function
             l = mid+1;
         else
             h = mid;
     }
-    h-=sign;
+    h-=sign;                        //handling 0 on numberline
     return h.getval();
 }
 
-long long BigInteger::toLL(string val){
+long long BigInteger::_toLL(string val){
+  /**
+  * +Implementation of String to Long Long
+  * +Using stringstream to convert stirng into long long type
+  **/
+
     long long x;
     stringstream temp(val);
     temp >> x;
@@ -385,11 +423,11 @@ int main(int argc, char const *argv[]) {
                cout<<A-B<<endl;
                break;
            case 2:
-               // C=stoll(b,nullptr,0);
+               // C=s_toLL(b,nullptr,0);
                cout<<A/B<<endl;
                break;
            case 3:
-               // C=stoll(b,nullptr,0);
+               // C=s_toLL(b,nullptr,0);
                cout<<A%B<<endl;
                break;
            case 4:
