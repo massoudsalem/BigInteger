@@ -1,3 +1,6 @@
+#ifndef __BigInteger_c
+#define __BigInteger_c
+
 #include"BigInteger.h"
 
 /**Public Methods**/
@@ -55,16 +58,16 @@ BigInteger BigInteger:: operator + (const BigInteger &bigInteger){
     }
     else if(this->sign) //if first num -ve and second +ve we subtract second-abs(first)
     {
-        return (*(new BigInteger(bigInteger.val,bigInteger.sign))-*(new BigInteger(this->val,0)));
+        return (BigInteger(bigInteger.val,bigInteger.sign)-BigInteger(this->val,0));
     }
     else  //if first num +ve and second -ve we subtract first-abs(second)
     {
-        return (*this-*(new BigInteger(bigInteger.val,0)));
+        return (*this-BigInteger(bigInteger.val,0));
     }
 }
 
-BigInteger BigInteger:: operator + (const long long &num){
-    return (*this+BigInteger(_toString(abs(num)),num<0));
+BigInteger operator + (const long long &num,const BigInteger &bigInteger){
+    return (BigInteger(num)+bigInteger);
 }
 
 BigInteger BigInteger:: operator - (const BigInteger &bigInteger){
@@ -88,14 +91,14 @@ BigInteger BigInteger:: operator - (const BigInteger &bigInteger){
         BigInteger b(result,sign);
         return b;
     }
-    else if(!this->sign&&bigInteger.sign)return (*this+*(new BigInteger(bigInteger.val,0))); //if first number +ve and second -ve then -- become + then we add first+abs(second)
-    else if(this->sign&&!bigInteger.sign)return (*this+*(new BigInteger(bigInteger.val,1))); //if first number -ve and second +ve then -+ become - then we add -(abs(first)+second)
-    else return (*(new BigInteger(bigInteger.val,0))-*(new BigInteger(this->val,0)));//if first number -ve and second -ve then -- become + then we sub second+abs(first)
+    else if(!this->sign&&bigInteger.sign)return (*this+BigInteger(bigInteger.val,0)); //if first number +ve and second -ve then -- become + then we add first+abs(second)
+    else if(this->sign&&!bigInteger.sign)return (*this+BigInteger(bigInteger.val,1)); //if first number -ve and second +ve then -+ become - then we add -(abs(first)+second)
+    else return (BigInteger(bigInteger.val,0)-BigInteger(this->val,0));//if first number -ve and second -ve then -- become + then we sub second+abs(first)
 
 }
 
-BigInteger BigInteger:: operator - (const long long &num){
-    return (*this-BigInteger(_toString(abs(num)),num<0));
+BigInteger operator - (const long long &num,const BigInteger &bigInteger){
+    return (BigInteger(num)-bigInteger);
 }
 
 BigInteger BigInteger:: operator * (const BigInteger &bigInteger){
@@ -105,8 +108,8 @@ BigInteger BigInteger:: operator * (const BigInteger &bigInteger){
     return b;
 }
 
-BigInteger BigInteger:: operator * (const long long &num){
-    return (*this*BigInteger(_toString(abs(num)),num<0));
+BigInteger operator * (const long long &num,const BigInteger &bigInteger){
+    return (BigInteger(num)*bigInteger);
 }
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
@@ -139,8 +142,8 @@ BigInteger BigInteger::operator / (const BigInteger &bigInteger){
     return BigInteger(result,sign);
 }
 
-BigInteger BigInteger:: operator / (const long long &num){
-    return (*this/BigInteger(_toString(abs(num)),num<0));
+BigInteger operator / (const long long &num,const BigInteger &bigInteger){
+    return (BigInteger(num)/bigInteger);
 }
 
 BigInteger BigInteger::operator % (const BigInteger &bigInteger){
@@ -153,8 +156,8 @@ BigInteger BigInteger::operator % (const BigInteger &bigInteger){
     return (*this)-((*this/bigInteger)*bigInteger);
 }
 
-BigInteger BigInteger:: operator % (const long long &num){
-    return (*this%BigInteger(_toString(abs(num)),num<0));
+BigInteger operator % (const long long &num,const BigInteger &bigInteger){
+    return (BigInteger(num)%bigInteger);
 }
 
 BigInteger& BigInteger:: operator += (const BigInteger &bigInteger){
@@ -183,24 +186,24 @@ BigInteger& BigInteger:: operator %= (const BigInteger &bigInteger){
 }
 
 BigInteger& BigInteger:: operator ++ (){
-    *this=(*this+*(new BigInteger("1",0)));
+    *this=(*this+BigInteger("1",0));
     return *this;
 }
 
 BigInteger& BigInteger:: operator -- (){
-    *this=(*this-*(new BigInteger("1",0)));
+    *this=(*this-BigInteger("1",0));
     return *this;
 }
 
 BigInteger BigInteger:: operator ++ (int){
     BigInteger b(this->val,this->sign);
-    *this=(*this+*(new BigInteger("1",0)));
+    *this=(*this+BigInteger("1",0));
     return b;
 }
 
 BigInteger BigInteger:: operator -- (int){
     BigInteger b(this->val,this->sign);
-    *this=(*this-*(new BigInteger("1",0)));
+    *this=(*this-BigInteger("1",0));
     return b;
 }
 
@@ -261,7 +264,7 @@ BigInteger BigInteger::GCD(BigInteger y){
     x = y;
     y = r;
   }
-  
+
 return x;
 }
 
@@ -456,3 +459,4 @@ bool BigInteger::_isGreater(BigInteger b1, BigInteger b2){
         return b1val<b2val;
     }
 }
+#endif // __BigInteger_c

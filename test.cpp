@@ -30,6 +30,6 @@ int main(int argc, char const *argv[]) {
    }*/
    BigInteger b("5"),b2;
    long long n=5;
-   cout<<(b==n);
+   cout<<(n%(b*2));
     return 0;
 }

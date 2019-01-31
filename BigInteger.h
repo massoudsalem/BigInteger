@@ -1,4 +1,8 @@
+#ifndef __BigInteger_h__
+#define __BigInteger_h__
+
 #include <bits/stdc++.h>
+
 using namespace std;
 class BigInteger{
 
@@ -16,15 +20,15 @@ public:
 
   void operator = (BigInteger bigInteger);                       //overloading for assignment operator
   BigInteger operator + (const BigInteger &bigInteger);          //overloading for adding operator
-  BigInteger operator + (const long long &num);                  //overloading for adding with long
+  friend BigInteger operator + (const long long &num,const BigInteger &bigInteger);                  //overloading for adding with long
   BigInteger operator - (const BigInteger &bigInteger);          //overloading for subtracting operator
-  BigInteger operator - (const long long &num);                  //overloading for subtracting with long
+  friend BigInteger operator - (const long long &num,const BigInteger &bigInteger);                  //overloading for subtracting with long
   BigInteger operator * (const BigInteger &bigInteger);          //overloading for multiplying operator
-  BigInteger operator * (const long long &num);
+  friend BigInteger operator * (const long long &num,const BigInteger &bigInteger);
   BigInteger operator / (const BigInteger &bigInteger);          //overloading for dividing operator
-  BigInteger operator / (const long long &num);
+  friend BigInteger operator / (const long long &num,const BigInteger &bigInteger);
   BigInteger operator % (const BigInteger &bigInteger);          //overloading for remainder operator
-  BigInteger operator % (const long long &num);
+  friend BigInteger operator % (const long long &num,const BigInteger &bigInteger);
 
   BigInteger& operator += (const BigInteger &bigInteger);        //overloading for adding compound operator
   BigInteger& operator -= (const BigInteger &bigInteger);        //overloading for subtracting compound operator
@@ -66,3 +70,4 @@ private:
   long long _remainder(BigInteger dividant, long long divisor);            //supporting function for remainder
   bool      _isGreater(BigInteger b1, BigInteger b2);                      //return true if b1>b2
 };
+#endif // __BigInteger_h__
