@@ -42,11 +42,17 @@ public:
   BigInteger  operator -- (int);          //postfix decrement: dummy parameter, returns a value
 
   bool operator == (const BigInteger &bigInteger);               //overloading for equals comparison operator
+  friend bool operator == (const long long &num,const BigInteger &bigInteger);
   bool operator != (const BigInteger &bigInteger);               //overloading for not equals comparison operator
+  friend bool operator != (const long long &num,const BigInteger &bigInteger);
   bool operator >= (const BigInteger &bigInteger);               //overloading for greaterthan or equal comparison operator
+  friend bool operator >= (const long long &num,const BigInteger &bigInteger);
   bool operator <= (const BigInteger &bigInteger);               //overloading for lessthan or equal comparison operator
+  friend bool operator <= (const long long &num,const BigInteger &bigInteger);
   bool operator > (const BigInteger &bigInteger);                //overloading for greaterthan comparison operator
+  friend bool operator > (const long long &num,const BigInteger &bigInteger);
   bool operator < (const BigInteger &bigInteger);                //overloading for lessthan comparison operator
+  friend bool operator < (const long long &num,const BigInteger &bigInteger);
 
   BigInteger operator -();                 //-ve sign
   operator string();                       //string conversion

@@ -28,8 +28,9 @@ int main(int argc, char const *argv[]) {
        }
        ++i;
    }*/
-   BigInteger b("5"),b2;
+   BigInteger b("-5"),b2;
    long long n=5;
-   cout<<(n%(b*2));
+   //cout<<(n%(b*2));
+   cout<<(b<n);
     return 0;
 }

@@ -211,24 +211,48 @@ bool BigInteger::operator == (const BigInteger &bigInteger){
     return (*this).val==bigInteger.val&&(*this).sign==bigInteger.sign;
 }
 
+bool operator == (const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)==bigInteger;
+}
+
 bool BigInteger::operator !=(const BigInteger &bigInteger){
     return !((*this)==bigInteger);
+}
+
+bool operator != (const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)!=bigInteger;
 }
 
 bool BigInteger::operator >=(const BigInteger &bigInteger){
     return *this==bigInteger||_isGreater(*this,bigInteger);
 }
 
+bool operator >= (const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)>=bigInteger;
+}
+
 bool BigInteger::operator <=(const BigInteger &bigInteger){
     return *this==bigInteger||!_isGreater(*this,bigInteger);
+}
+
+bool operator <= (const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)<=bigInteger;
 }
 
 bool BigInteger::operator >(const BigInteger &bigInteger){
     return _isGreater(*this,bigInteger);
 }
 
+bool operator > (const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)>bigInteger;
+}
+
 bool BigInteger::operator <(const BigInteger &bigInteger){
     return *this!=bigInteger&&!_isGreater(*this,bigInteger);
+}
+
+bool operator <(const long long &num,const BigInteger &bigInteger){
+    return BigInteger(num)<bigInteger;
 }
 
 BigInteger BigInteger::operator -() {
