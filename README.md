@@ -18,12 +18,12 @@ With this class you can do many operations like :<br>
   - Division: The ‘/’ operator divides the first operand by the second. For example, x/y.
   - Modulus: The ‘%’ operator returns the remainder when first operand is divided by the second. For example, x%y.
 - Relational operations
-  - ‘==’ operator checks whether the two given operands are equal or not. If so, it returns true. Otherwise it returns false. For example, 5==5 will return true.
-  - ‘!=’ operator checks whether the two given operands are equal or not. If not, it returns true. Otherwise it returns false. It is the exact boolean complement of the ‘==’ operator. For example, 5!=5 will return false.
-  - ‘>’ operator checks whether the first operand is greater than the second operand. If so, it returns true. Otherwise it returns false. For example, 6>5 will return true.
-  - ‘<‘ operator checks whether the first operand is lesser than the second operand. If so, it returns true. Otherwise it returns false. For example, 6<5 will return false.
-  - ‘>=’ operator checks whether the first operand is greater than or equal to the second operand. If so, it returns true. Otherwise it returns false. For example, 5>=5 will return true.
-  - ‘<=’ operator checks whether the first operand is lesser than or equal to the second operand. If so, it returns true. Otherwise it returns false. For example, 5<=5 will also return true.
+  - ‘==’ operator checks whether the two given operands are equal or not. If so, it returns true. Otherwise it returns false.       For example, 5==5 will return true.
+  - ‘!=’ operator checks whether the two given operands are equal or not. If not, it returns true. Otherwise it returns             false. It is the exact boolean complement of the ‘==’ operator. For example, 5!=5 will return false.
+  - ‘>’ operator checks whether the first operand is greater than the second operand. If so, it returns true. Otherwise it         returns false. For example, 6>5 will return true.
+  - ‘<‘ operator checks whether the first operand is lesser than the second operand. If so, it returns true. Otherwise it           returns false. For example, 6<5 will return false.
+  - ‘>=’ operator checks whether the first operand is greater than or equal to the second operand. If so, it returns true.        Otherwise it returns false. For example, 5>=5 will return true.
+  - ‘<=’ operator checks whether the first operand is lesser than or equal to the second operand. If so, it returns true.           Otherwise it returns false. For example, 5<=5 will also return true.
 ## Some advantage
 - You can initialize the object with a string , int or long value.
 - Unlike java you don't need to type for example `number1.add(number2)` ,you just type `number1+number2`.
@@ -37,6 +37,7 @@ With this class you can do many operations like :<br>
 - GCD : The greatest common divisor of two numbers which is the largest number that divides both of them.<br>
 For example, the gcd of 8(2 x 4) and 12(3 x 4) is 4.
 - LCM : The least number which is exactly divisible by each of the given numbers is called the least common multiple of those numbers.<br> For example, consider the numbers 3, 31 and 62 (2 x 31). The LCM of these numbers would be 2 x 3 x 31 = 186.
+- modPower : Given three numbers x, y and p, compute (x<sup>y</sup>) % p.
 ## Testing the class functions
 We have created a unit testing script using python to test our class.<br>
 The script generates a very large random numbers and do some operations in python then putting generated numbers and the output in a file.<br>
@@ -48,4 +49,4 @@ We are going to add more functions like:
 - isPrime : which check if a given numbers is prime or not
 - sqrt : which return the square root of a given number<br>
 and more useful functions.
-stay tuned and wait for updates. 
+stay tuned and wait for updates ;). 
