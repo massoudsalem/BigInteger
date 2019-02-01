@@ -114,11 +114,9 @@ BigInteger operator * (const long long &num,const BigInteger &bigInteger){
 
 BigInteger BigInteger::operator / (const BigInteger &bigInteger){
   /**
-  * +Implementation of greatest comparision
-  * +positive number is greater than negative one so check sgin first
-  * +if both are positive or negative compare number of digits
-  * +if the same numbeer of digits compare values
-  * +Note: negative with higher value is smaller
+  * +Overloading of / operator.
+  * +If the divitant is between 0-9*(10^17) use arth. division.
+  * +Else use Binary search.
   **/
 
     if (bigInteger.getval()=="0") //Division by zero
